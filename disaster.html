@@ -2,243 +2,261 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>防災診断</title>
-
+<title>防災診断ツール</title>
 <style>
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  margin:0;
-  padding:20px;
-  background:#f4f6f9;
+body {
+  font-family: sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  container-type: inline-size;
+}
+h3 { margin-top: 0; }
+button { margin-top: 10px; padding: 5px 10px; }
+#result { margin-top: 15px; min-height: 50px; }
+
+.selection-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 15px;
 }
 
-h2{
-  margin-top:30px;
+.selection-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1 1 100%;
 }
 
-/* ========================
-   進捗バー
-======================== */
-.progress-container{
-  background:#e0e0e0;
-  border-radius:20px;
-  overflow:hidden;
-  margin:15px 0 25px 0;
-  height:18px;
+.selection-group span {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#4caf50,#81c784);
-  transition:0.3s;
+#result .items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
-.progress-text{
-  font-size:0.9em;
-  margin-bottom:5px;
+#result .item-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9em;
 }
 
-/* ========================
-   カード
-======================== */
-.items{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.item-card{
-  width:100%;
-  background:#fff;
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.05);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  transition:0.2s;
-  position:relative;
+.item-left input[type="checkbox"] {
+  margin: 0;
+  outline: none;
 }
 
-.item-card.checked{
-  opacity:0.5;
+/* ✅ チェック済みグレー表示 */
+.item-card.checked span {
+  color: #999;
+  text-decoration: line-through;
 }
 
-.item-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* ===== 所持率バー ===== */
+.progress-text {
+  font-size: 0.85em;
+  margin-top: 5px;
 }
 
-.item-left input{
-  transform:scale(1.2);
+.progress-container {
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 10px;
+  margin-bottom: 8px;
 }
 
-.item-name{
-  font-size:0.95em;
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: 0.3s;
 }
 
-/* ========================
-   カラータグ
-======================== */
-.tag{
-  font-size:0.7em;
-  padding:3px 8px;
-  border-radius:20px;
-  color:#fff;
-  margin-right:6px;
+#result .item-card img {
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+  flex-shrink: 0;
 }
 
-.tag-earthquake{background:#e53935;}
-.tag-rain{background:#1e88e5;}
-.tag-snow{background:#90caf9;}
-.tag-typhoon{background:#8e24aa;}
-.tag-tsunami{background:#0d47a1;}
-.tag-volcano{background:#f4511e;}
-.tag-landslide{background:#6d4c41;}
-.tag-generic{background:#546e7a;}
-
-@media(min-width:600px){
-  .item-card{
-    width:calc(50% - 6px);
+@container (min-width: 500px) {
+  .selection-group {
+    flex: 1 1 calc(50% - 10px);
+  }
+  #result .item-card {
+    width: calc(50% - 6px);
   }
 }
 </style>
 </head>
-
 <body>
 
-<h1>防災グッズ診断</h1>
+<h3>あなたに必要な防災グッズ診断</h3>
 
-<label>
-<input type="checkbox" id="toggleCheckbox" checked>
-持ち物確認用のチェックボックスを表示
-</label>
+<div class="selection-container">
+<!-- （※ここはあなたの元コードそのままなので省略せず維持） -->
+<div class="selection-group">
+<span>想定する災害</span>
+<label><input type="checkbox" value="earthquake"> 地震対策</label>
+<label><input type="checkbox" value="heavyRain"> 豪雨対策</label>
+<label><input type="checkbox" value="snow"> 大雪対策</label>
+<label><input type="checkbox" value="typhoon"> 台風・突風対策</label>
+<label><input type="checkbox" value="tsunami"> 津波対策（海が近い）</label>
+<label><input type="checkbox" value="volcano"> 噴火対策（火山が近い）</label>
+<label><input type="checkbox" value="landslide"> 土砂災害対策（山が近い）</label>
+</div>
 
+<div class="selection-group">
+<span>あなたの家族構成</span>
+<label><input type="checkbox" value="male"> 男性がいる</label>
+<label><input type="checkbox" value="female"> 女性がいる</label>
+<label><input type="checkbox" value="child"> 子供がいる</label>
+<label><input type="checkbox" value="elder"> 高齢者がいる</label>
+<label><input type="checkbox" value="baby"> 赤ちゃんがいる</label>
+</div>
+
+<div class="selection-group">
+<span>汎用防災グッズ</span>
+<label><input type="checkbox" value="generic"> 汎用防災グッズ</label>
+</div>
+
+<div class="selection-group">
+<span>表示オプション設定</span>
+<label><input type="checkbox" id="showAmazon" checked> Amazonリンク表示</label>
+<label><input type="checkbox" id="showRakuten" checked> 楽天市場リンク表示</label>
+<label><input type="checkbox" id="showYahoo" checked> Yahooショップリンク表示</label>
+<label><input type="checkbox" id="showItemCheck" checked> 持ち物確認用のチェック表示</label>
+</div>
+</div>
+
+<button id="checkBtn">診断する</button>
 <div id="result"></div>
 
 <script>
+const amazonAffiliateId = "あなたのAmazonID";
+const rakutenAffiliateId = "あなたの楽天ID";
+const yahooAffiliateId = "あなたのYahooID";
 
-/* ========================
-   データ
-======================== */
+document.getElementById("checkBtn").addEventListener("click", function() {
 
-const disasterData = {
-  "地震対策": ["耐震マット","家具転倒防止器具","ヘルメット"],
-  "豪雨対策": ["止水板","防水土のう","レインコート"],
-  "大雪対策": ["スノーブーツ","スコップ","滑り止め"],
-  "台風・突風対策": ["窓ガラス飛散防止フィルム","養生テープ"],
-  "津波対策": ["ライフジャケット","防水バッグ"],
-  "噴火対策": ["防塵マスク","ゴーグル"],
-  "土砂災害対策": ["ヘッドライト","非常用ロープ"]
-};
-
-const genericItems = ["保存水","非常食","モバイルバッテリー","懐中電灯","救急セット"];
-
-/* ========================
-   タグクラス
-======================== */
-
-function getTagClass(name){
-  if(name.includes("地震")) return "tag-earthquake";
-  if(name.includes("豪雨")) return "tag-rain";
-  if(name.includes("大雪")) return "tag-snow";
-  if(name.includes("台風")) return "tag-typhoon";
-  if(name.includes("津波")) return "tag-tsunami";
-  if(name.includes("噴火")) return "tag-volcano";
-  if(name.includes("土砂")) return "tag-landslide";
-  return "tag-generic";
+var checked = document.querySelectorAll(".selection-container input[type=checkbox]:checked");
+var result = document.getElementById("result");
+if (checked.length === 0) {
+  result.innerHTML = "選択してください。";
+  return;
 }
 
-/* ========================
-   表示処理
-======================== */
+var showAmazon = document.getElementById("showAmazon").checked;
+var showRakuten = document.getElementById("showRakuten").checked;
+var showYahoo = document.getElementById("showYahoo").checked;
+var showItemCheck = document.getElementById("showItemCheck").checked;
 
-function render(){
+var itemsHtml = "";
 
-  const result = document.getElementById("result");
-  const showCheckbox = document.getElementById("toggleCheckbox").checked;
-  result.innerHTML="";
+checked.forEach(function(chk){
 
-  let allItems=[];
+var itemList = [];
 
-  // 汎用
-  result.innerHTML += "<h2>汎用防災グッズ</h2>";
-  result.innerHTML += createSection("汎用", genericItems, "tag-generic");
+/* ===== あなたの全データそのまま維持 ===== */
+if(chk.value === "earthquake") itemList = ["耐震マット","家具転倒防止突っ張り棒","ガラス飛散防止フィルム","ヘルメット","安全靴（踏み抜き防止）","消火器","感震ブレーカー","家具固定ベルト","防災ずきん"];
+if(chk.value === "heavyRain") itemList = ["止水板","吸水土のう","防水テープ","排水ポンプ","逆流防止弁","防水コンセントカバー","雨量計","側溝掃除用スコップ"];
+if(chk.value === "snow") itemList = ["スノーブラシ","タイヤチェーン","凍結防止スプレー","雪かきスコップ","スノーダンプ","屋根雪落とし棒","滑り止めスパイク","解氷剤"];
+if(chk.value === "typhoon") itemList = ["窓用シャッター補強材","養生テープ（窓補強用）","ブルーシート","固定用ロープ","飛散防止ネット","雨戸補強金具","物干し固定バンド"];
+if(chk.value === "tsunami") itemList = ["高浮力ライフジャケット","防水大型リュック","防水ポーチ","防水無線機","携帯用GPS","折りたたみヘルメット","高音量ホイッスル","LEDフラッシュビーコン"];
+if(chk.value === "volcano") itemList = ["防塵ゴーグル","N95マスク","火山灰用ほうき","耐熱手袋","防炎シート","灰除去ブラシ","車用防塵カバー","耐熱レインウェア"];
+if(chk.value === "landslide") itemList = ["登山用ヘルメット","厚手作業手袋","強化型防塵マスク","折りたたみスコップ","救助用ロープ","カラビナ","救助用ハンマー","防災ナイフ"];
+if(chk.value === "male") itemList = ["軽量非常食","1人用寝袋","コンパクトラジオ"];
+if(chk.value === "female") itemList = ["軽量非常食","化粧品小物","コンパクトラジオ"];
+if(chk.value === "child") itemList = ["子供用救急セット","乳幼児用食料","おむつ","抱っこ紐"];
+if(chk.value === "elder") itemList = ["杖対応靴","服薬セット","補助具","軽量椅子"];
+if(chk.value === "baby") itemList = ["乳幼児用食料","おむつ","抱っこ紐","ベビーカーカバー"];
+if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","救急セット","防寒具","帽子","エマージェンシーシート"];
 
-  // 災害別
-  result.innerHTML += "<h2>想定する災害</h2>";
+if(itemList.length > 0){
 
-  for(let disaster in disasterData){
-    result.innerHTML += createSection(disaster, disasterData[disaster], getTagClass(disaster));
-  }
+itemsHtml += "<strong>" + chk.parentNode.textContent.trim() + "</strong>";
 
-  updateProgress();
+/* ===== 進捗バー追加 ===== */
+var sectionId = chk.value;
+itemsHtml += '<div class="progress-text">所持率 <span id="progress-' + sectionId + '">0%</span></div>';
+itemsHtml += '<div class="progress-container"><div class="progress-bar" id="bar-' + sectionId + '"></div></div>';
+
+itemsHtml += "<div class='items'>";
+
+itemList.forEach(function(it){
+
+var leftPart = "<div class='item-left'>";
+if(showItemCheck){
+  leftPart += "<input type='checkbox' class='item-check' data-group='" + sectionId + "'>";
 }
+leftPart += "<span>" + it + "</span></div>";
 
-function createSection(title, items, tagClass){
+var rightPart = "<span>";
+if(showAmazon) rightPart += '<a href="https://www.amazon.co.jp/s?k=' + encodeURIComponent(it) + '&tag=' + amazonAffiliateId + '" target="_blank"><img src="https://www.amazon.co.jp/favicon.ico"></a>';
+if(showRakuten) rightPart += '<a href="https://search.rakuten.co.jp/search/mall/' + encodeURIComponent(it) + '/?f=af_id=' + rakutenAffiliateId + '" target="_blank"><img src="https://www.rakuten.co.jp/favicon.ico"></a>';
+if(showYahoo) rightPart += '<a href="https://shopping.yahoo.co.jp/search?p=' + encodeURIComponent(it) + '&sc_i=' + yahooAffiliateId + '" target="_blank"><img src="https://shopping.yahoo.co.jp/favicon.ico"></a>';
+rightPart += "</span>";
 
-  let html = `
-  <div class="progress-text">${title} 所持率 <span id="progress-${title}">0%</span></div>
-  <div class="progress-container">
-    <div class="progress-bar" id="bar-${title}"></div>
-  </div>
-  <div class="items">`;
-
-  items.forEach(item=>{
-    html+=`
-    <div class="item-card">
-      <div class="item-left">
-        <input type="checkbox" class="item-check" data-group="${title}">
-        <span class="tag ${tagClass}">${title}</span>
-        <span class="item-name">${item}</span>
-      </div>
-    </div>`;
-  });
-
-  html+="</div>";
-  return html;
-}
-
-/* ========================
-   進捗計算
-======================== */
-
-function updateProgress(){
-
-  const groups = document.querySelectorAll(".progress-text span");
-
-  groups.forEach(span=>{
-    const title = span.id.replace("progress-","");
-    const checks = document.querySelectorAll(`input[data-group="${title}"]`);
-    const checked = document.querySelectorAll(`input[data-group="${title}"]:checked`);
-    const percent = checks.length ? Math.round((checked.length/checks.length)*100) : 0;
-
-    span.textContent = percent+"%";
-    document.getElementById("bar-"+title).style.width = percent+"%";
-  });
-
-  document.querySelectorAll(".item-check").forEach(cb=>{
-    cb.closest(".item-card").classList.toggle("checked", cb.checked);
-  });
-}
-
-/* ========================
-   イベント
-======================== */
-
-document.addEventListener("change", function(e){
-  if(e.target.classList.contains("item-check")){
-    updateProgress();
-  }
+itemsHtml += "<div class='item-card'>" + leftPart + rightPart + "</div>";
 });
 
-document.getElementById("toggleCheckbox").addEventListener("change", render);
+itemsHtml += "</div>";
+}
+});
 
-render();
+result.innerHTML = itemsHtml;
+updateProgress();
+});
 
+/* ===== 進捗更新処理 ===== */
+function updateProgress(){
+
+document.querySelectorAll(".progress-text span").forEach(function(span){
+
+var group = span.id.replace("progress-","");
+var checks = document.querySelectorAll("input[data-group='"+group+"']");
+var checked = document.querySelectorAll("input[data-group='"+group+"']:checked");
+
+var percent = checks.length ? Math.round((checked.length/checks.length)*100) : 0;
+
+span.textContent = percent + "%";
+var bar = document.getElementById("bar-"+group);
+if(bar) bar.style.width = percent + "%";
+});
+
+/* グレー処理 */
+document.querySelectorAll(".item-check").forEach(function(cb){
+cb.closest(".item-card").classList.toggle("checked", cb.checked);
+});
+}
+
+document.addEventListener("change", function(e){
+if(e.target.classList.contains("item-check")){
+updateProgress();
+}
+});
 </script>
 </body>
 </html>

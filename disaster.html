@@ -4,43 +4,31 @@
 <meta charset="UTF-8">
 <title>防災診断ツール</title>
 <style>
-body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+body { font-family: sans-serif; max-width: 700px; margin: 0 auto; padding: 20px; }
 h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
-#result { 
-  margin-top: 15px; 
-  min-height: 50px; 
+#result { margin-top: 15px; min-height: 50px; }
+
+/* 2列レイアウト */
+.selection-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 15px;
 }
 
-/* チェックボックス選択肢全般 */
+/* 各選択肢グループ */
 .selection-group {
-  display: flex; 
-  align-items: flex-start; 
-  gap: 5px; 
-  margin-bottom: 15px; /* 各選択肢縦余白個別調整 */
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column; /* 縦積み */
+  gap: 5px;
 }
 
-/* タイトル固定幅でチェックボックス揃え */
+/* タイトル固定幅 */
 .selection-group span {
-  display: inline-block;
-  width: 120px; /* タイトル幅固定 */
-  line-height: 1.5em;
-}
-
-/* 選択肢横並び */
-.selection-group label {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  margin-right: 10px;
-}
-
-/* 汎用グッズ・通販ON/OFF */
-.checkbox-group {
-  display: flex; 
-  align-items: center; 
-  gap: 5px; 
-  margin-bottom: 15px; /* 個別余白 */
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 /* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
@@ -74,33 +62,40 @@ button { margin-top: 10px; padding: 5px 10px; }
 
 <h3>あなたに必要な防災グッズ診断</h3>
 
-<div class="selection-group">
-  <span>あなたの地域：</span>
-  <label><input type="checkbox" value="sea"> 海が近い</label>
-  <label><input type="checkbox" value="mountain"> 山が近い</label>
-  <label><input type="checkbox" value="volcano"> 火山が近い</label>
-  <label><input type="checkbox" value="city"> 都市部</label>
-  <label><input type="checkbox" value="river"> 川が近い</label>
-</div>
+<div class="selection-container">
+  <!-- 左上：地域 -->
+  <div class="selection-group">
+    <span>あなたの地域</span>
+    <label><input type="checkbox" value="sea"> 海が近い</label>
+    <label><input type="checkbox" value="mountain"> 山が近い</label>
+    <label><input type="checkbox" value="volcano"> 火山が近い</label>
+    <label><input type="checkbox" value="city"> 都市部</label>
+    <label><input type="checkbox" value="river"> 川が近い</label>
+  </div>
 
-<div class="selection-group">
-  <span>あなたの家族構成：</span>
-  <label><input type="checkbox" value="male"> 男性がいる</label>
-  <label><input type="checkbox" value="female"> 女性がいる</label>
-  <label><input type="checkbox" value="child"> 子供がいる</label>
-  <label><input type="checkbox" value="elder"> 高齢者がいる</label>
-</div>
+  <!-- 右上：家族構成 -->
+  <div class="selection-group">
+    <span>あなたの家族構成</span>
+    <label><input type="checkbox" value="male"> 男性がいる</label>
+    <label><input type="checkbox" value="female"> 女性がいる</label>
+    <label><input type="checkbox" value="child"> 子供がいる</label>
+    <label><input type="checkbox" value="elder"> 高齢者がいる</label>
+    <label><input type="checkbox" value="baby"> 赤ちゃんがいる</label>
+  </div>
 
-<div class="selection-group">
-  <span>汎用防災グッズ：</span>
-  <label><input type="checkbox" value="generic"> 必要な汎用防災グッズ</label>
-</div>
+  <!-- 左下：汎用防災グッズ -->
+  <div class="selection-group">
+    <span>汎用防災グッズ</span>
+    <label><input type="checkbox" value="generic"> 必要な汎用防災グッズ</label>
+  </div>
 
-<div class="checkbox-group">
-  <span>通販サイトリンク：</span>
-  <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
-  <label><input type="checkbox" id="showRakuten" checked> 楽天表示</label>
-  <label><input type="checkbox" id="showYahoo" checked> Yahoo表示</label>
+  <!-- 右下：通販サイトリンク -->
+  <div class="selection-group">
+    <span>通販サイトリンク</span>
+    <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
+    <label><input type="checkbox" id="showRakuten" checked> 楽天表示</label>
+    <label><input type="checkbox" id="showYahoo" checked> Yahoo表示</label>
+  </div>
 </div>
 
 <button id="checkBtn">診断する</button>
@@ -143,6 +138,7 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     if(chk.value === "female") itemList = ["軽量非常食","化粧品小物","コンパクトラジオ"];
     if(chk.value === "child") itemList = ["子供用救急セット","乳幼児用食料","おむつ","抱っこ紐"];
     if(chk.value === "elder") itemList = ["杖対応靴","服薬セット","補助具","軽量椅子"];
+    if(chk.value === "baby") itemList = ["乳幼児用食料","おむつ","抱っこ紐","ベビーカーカバー"];
 
     // 汎用
     if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","救急セット","防寒具","帽子","エマージェンシーシート"];

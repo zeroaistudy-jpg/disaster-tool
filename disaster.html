@@ -9,7 +9,7 @@ h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { margin-top: 15px; font-weight: bold; }
 
-/* 防災グッズ2列表示 */
+/* 防災グッズ2列表示・左寄せ・枠なし */
 #result .items {
   display: flex;
   flex-wrap: wrap;
@@ -20,9 +20,9 @@ button { margin-top: 10px; padding: 5px 10px; }
   flex: 1 1 48%;
   box-sizing: border-box;
   padding: 5px;
-  border: none; /* 枠を消す */
-  border-radius: 0; /* 角丸も消す */
-  background-color: transparent;
+  border: none; /* 枠なし */
+  border-radius: 0; /* 角丸なし */
+  background-color: #f9f9f9; /* 必要なければ transparent に変更可 */
   text-align: left;
   font-size: 0.9em;
 }
@@ -85,9 +85,9 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 });
 </script>
 
-<!-- iframe高さ固定（スクロールなし） -->
+<!-- iframe高さ固定 -->
 <script>
-var iframeHeight = 600; // 最大縦幅に合わせる
+var iframeHeight = 600;
 
 if(window.frameElement){
   window.frameElement.style.height = iframeHeight + "px";
@@ -96,6 +96,3 @@ if(window.frameElement){
 
 </body>
 </html>
-
-
-

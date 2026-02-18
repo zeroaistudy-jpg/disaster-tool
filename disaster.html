@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>防災診断ツール</title>
 <style>
-body { font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+body { font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
 h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { margin-top: 15px; font-weight: bold; }
@@ -14,15 +14,16 @@ button { margin-top: 10px; padding: 5px 10px; }
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 #result .items div {
   flex: 1 1 48%;
   box-sizing: border-box;
   padding: 5px;
   border: none; /* 枠なし */
-  border-radius: 0; /* 角丸なし */
-　background-color: transparent;
+  border-radius: 0;
+  background-color: transparent; /* 背景透明 */
   text-align: left;
   font-size: 0.9em;
 }
@@ -42,7 +43,7 @@ button { margin-top: 10px; padding: 5px 10px; }
 <div id="result"></div>
 
 <script>
-// 診断処理
+// 診断処理（選択肢ごとにグッズ表示）
 document.getElementById("checkBtn").addEventListener("click", function() {
   var checked = document.querySelectorAll("input[type=checkbox]:checked");
   var result = document.getElementById("result");
@@ -52,43 +53,40 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     return;
   }
 
-  var items = [];
   var score = checked.length * 25;
-
-  function addItem(name) {
-    if (items.indexOf(name) === -1) items.push(name);
-  }
-
-  for (var i = 0; i < checked.length; i++) {
-    if (checked[i].value === "sea") { addItem("防水リュック"); addItem("ホイッスル"); }
-    if (checked[i].value === "mountain") { addItem("ヘルメット"); addItem("懐中電灯"); }
-    if (checked[i].value === "city") { addItem("モバイルバッテリー"); addItem("携帯トイレ"); }
-    if (checked[i].value === "normal") { addItem("飲料水（3日分）"); addItem("保存食"); }
-  }
-
   var level = "";
   if (score <= 25) level = "リスク：低";
   else if (score <= 50) level = "リスク：中";
   else level = "リスク：高";
 
-  // 防災グッズを2列表示
-  var itemsHtml = "<div class='items'>";
-  items.forEach(function(item) {
-    itemsHtml += "<div>" + item + "</div>";
+  var itemsHtml = "";
+  checked.forEach(function(chk){
+    var itemList = [];
+    if(chk.value === "sea") itemList = ["防水リュック","ホイッスル"];
+    if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯"];
+    if(chk.value === "city") itemList = ["モバイルバッテリー","携帯トイレ"];
+    if(chk.value === "normal") itemList = ["飲料水（3日分）","保存食"];
+
+    if(itemList.length > 0){
+      // 選択肢名表示
+      itemsHtml += "<strong>"+ chk.parentNode.textContent +"</strong>";
+      // グッズ2列表示
+      itemsHtml += "<div class='items'>";
+      itemList.forEach(function(it){ itemsHtml += "<div>"+it+"</div>"; });
+      itemsHtml += "</div>";
+    }
   });
-  itemsHtml += "</div>";
 
   result.innerHTML =
     "<h4>防災リスクスコア：" + score + "点</h4>" +
     "<strong>" + level + "</strong><br>" +
-    "おすすめ防災グッズ：" + itemsHtml;
+    itemsHtml;
 });
 </script>
 
-<!-- iframe高さ固定 -->
+<!-- iframe高さ固定（スクロールなし） -->
 <script>
 var iframeHeight = 600;
-
 if(window.frameElement){
   window.frameElement.style.height = iframeHeight + "px";
 }
@@ -96,4 +94,3 @@ if(window.frameElement){
 
 </body>
 </html>
-

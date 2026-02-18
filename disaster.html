@@ -25,7 +25,7 @@ button { margin-top: 10px; padding: 5px 10px; }
   gap: 5px;
 }
 
-/* タイトル固定幅 */
+/* タイトル強調 */
 .selection-group span {
   font-weight: bold;
   margin-bottom: 5px;
@@ -63,7 +63,7 @@ button { margin-top: 10px; padding: 5px 10px; }
 <h3>あなたに必要な防災グッズ診断</h3>
 
 <div class="selection-container">
-  <!-- 左上：地域 -->
+  <!-- 左列 -->
   <div class="selection-group">
     <span>あなたの地域</span>
     <label><input type="checkbox" value="sea"> 海が近い</label>
@@ -73,7 +73,6 @@ button { margin-top: 10px; padding: 5px 10px; }
     <label><input type="checkbox" value="river"> 川が近い</label>
   </div>
 
-  <!-- 右上：家族構成 -->
   <div class="selection-group">
     <span>あなたの家族構成</span>
     <label><input type="checkbox" value="male"> 男性がいる</label>
@@ -83,13 +82,11 @@ button { margin-top: 10px; padding: 5px 10px; }
     <label><input type="checkbox" value="baby"> 赤ちゃんがいる</label>
   </div>
 
-  <!-- 左下：汎用防災グッズ -->
   <div class="selection-group">
     <span>汎用防災グッズ</span>
     <label><input type="checkbox" value="generic"> 必要な汎用防災グッズ</label>
   </div>
 
-  <!-- 右下：通販サイトリンク -->
   <div class="selection-group">
     <span>通販サイトリンク</span>
     <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
@@ -144,7 +141,8 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","救急セット","防寒具","帽子","エマージェンシーシート"];
 
     if(itemList.length > 0){
-      itemsHtml += chk.parentNode.textContent;
+      // タイトルを太字
+      itemsHtml += "<strong>" + chk.parentNode.textContent.trim() + "</strong>";
       itemsHtml += "<div class='items'>";
       itemList.forEach(function(it){
         var html = it + '<span>';

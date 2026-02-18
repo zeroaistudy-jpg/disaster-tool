@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <title>防災診断ツール</title>
 <style>
-body { font-family: sans-serif; max-width: 700px; margin: 0 auto; padding: 20px; }
+body {
+  font-family: sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  container-type: inline-size; /* 追加 */
+}
+
 h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { margin-top: 15px; min-height: 50px; }
@@ -22,7 +30,7 @@ button { margin-top: 10px; padding: 5px 10px; }
   display: flex;
   flex-direction: column;
   gap: 5px;
-  flex: 1 1 100%; /* デフォルトは1列 */
+  flex: 1 1 100%;
 }
 
 /* タイトル太字 */
@@ -35,36 +43,43 @@ button { margin-top: 10px; padding: 5px 10px; }
 #result .items {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   margin-top: 5px;
   margin-bottom: 10px;
 }
+
 #result .items div {
-  flex: 0 1 100%; /* デフォルトは1列 */
+  width: 100%;
   box-sizing: border-box;
-  padding: 5px;
-  border: 1px solid #ccc; 
+  padding: 6px 8px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9; 
+  background-color: #f9f9f9;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   font-size: 0.9em;
 }
+
+/* アイコン固定サイズ */
 #result .items div img {
   width: 16px;
   height: 16px;
-  margin-left: 3px;
+  margin-left: 4px;
+  flex-shrink: 0;
 }
 
-/* PC向け: 選択肢2列、診断結果グッズ2列 */
-@media(min-width: 768px) {
+/* ===== 横幅600px以上で2列（Container Query） ===== */
+@container (min-width: 600px) {
+
   .selection-group {
-    flex: 1 1 48%; /* 選択肢2列 */
+    flex: 1 1 calc(50% - 10px);
   }
+
   #result .items div {
-    flex: 0 1 48%; /* 診断結果グッズ2列 */
+    width: calc(50% - 6px);
   }
+
 }
 </style>
 </head>
@@ -175,3 +190,4 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 
 </body>
 </html>
+

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>防災診断ツール</title>
 <style>
-body { font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
+body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
 h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { 
@@ -12,6 +12,10 @@ button { margin-top: 10px; padding: 5px 10px; }
   font-weight: bold; 
   min-height: 50px; 
 }
+
+/* 選択肢横並び */
+.selection-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px; }
+.selection-group { display: flex; align-items: center; gap: 5px; }
 
 /* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
 #result .items {
@@ -22,7 +26,7 @@ button { margin-top: 10px; padding: 5px 10px; }
   margin-bottom: 10px;
 }
 #result .items div {
-  flex: 1 1 48%;
+  flex: 1 1 calc(50% - 10px); /* 2列で均等幅 */
   box-sizing: border-box;
   padding: 5px;
   border: 1px solid #ccc; 
@@ -44,12 +48,27 @@ button { margin-top: 10px; padding: 5px 10px; }
 
 <h3>あなたに必要な防災グッズ診断</h3>
 
-<p>地域：</p>
-<label><input type="checkbox" value="sea"> 海が近い</label><br>
-<label><input type="checkbox" value="mountain"> 山が近い</label><br>
-<label><input type="checkbox" value="city"> 都市部</label><br>
-<label><input type="checkbox" value="volcano"> 火山が近い</label><br>
-<label><input type="checkbox" value="generic"> 汎用防災グッズ</label><br>
+<div class="selection-row">
+  <div class="selection-group">
+    <span>地域：</span>
+    <label><input type="checkbox" value="sea"> 海が近い</label>
+    <label><input type="checkbox" value="mountain"> 山が近い</label>
+    <label><input type="checkbox" value="volcano"> 火山が近い</label>
+    <label><input type="checkbox" value="city"> 都市部</label>
+  </div>
+  <div class="selection-group">
+    <span>家族構成：</span>
+    <label><input type="checkbox" value="male"> 男性</label>
+    <label><input type="checkbox" value="female"> 女性</label>
+    <label><input type="checkbox" value="child"> 子供</label>
+    <label><input type="checkbox" value="elder"> 高齢者</label>
+  </div>
+</div>
+
+<div class="selection-group">
+  <span>汎用防災グッズ：</span>
+  <label><input type="checkbox" value="generic"> 必要な汎用防災グッズ</label>
+</div>
 
 <button id="checkBtn">診断する</button>
 
@@ -77,12 +96,23 @@ document.getElementById("checkBtn").addEventListener("click", function() {
   else level = "リスク：高";
 
   var itemsHtml = "";
+
   checked.forEach(function(chk){
     var itemList = [];
+
+    // 地域別
     if(chk.value === "sea") itemList = ["防水リュック","ライフジャケット","救命浮き具","防水ブーツ","防水スマホケース","浮き輪・ロープ","非常食","飲料水3日分","携帯ラジオ","防水ライト"];
     if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯","登山靴・防滑ブーツ","ロープ","簡易担架","地図・コンパス","登山用防寒着"];
-    if(chk.value === "city") itemList = ["携帯トイレ","防犯ブザー","簡易マスク","小型救急キット","水筒","折りたたみスツール"];
     if(chk.value === "volcano") itemList = ["防塵マスク","耐火手袋","ゴーグル","耐熱服・長袖長ズボン","長靴・防水シューズ","ヘルメット"];
+    if(chk.value === "city") itemList = ["携帯トイレ","防犯ブザー","簡易マスク","小型救急キット","水筒","折りたたみスツール"];
+
+    // 家族構成別
+    if(chk.value === "male") itemList = ["軽量非常食","1人用寝袋","コンパクトラジオ"];
+    if(chk.value === "female") itemList = ["軽量非常食","化粧品小物","コンパクトラジオ"];
+    if(chk.value === "child") itemList = ["子供用救急セット","乳幼児用食料","おむつ","抱っこ紐"];
+    if(chk.value === "elder") itemList = ["杖対応靴","服薬セット","補助具","軽量椅子"];
+
+    // 汎用
     if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","簡易寝袋・毛布","救急セット","防寒具","帽子","エマージェンシーシート"];
 
     if(itemList.length > 0){

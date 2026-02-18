@@ -7,7 +7,12 @@
 body { font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
 h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
-#result { margin-top: 15px; font-weight: bold; }
+#result { 
+  margin-top: 15px; 
+  font-weight: bold; 
+  min-height: 50px; /* 診断前は空白を小さく */
+  transition: height 0.2s;
+}
 
 /* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
 #result .items {
@@ -51,10 +56,21 @@ button { margin-top: 10px; padding: 5px 10px; }
 <div id="result"></div>
 
 <script>
-// あなたのアフィリエイトID
+// アフィリエイトID
 const amazonAffiliateId = "あなたのAmazonID";
 const rakutenAffiliateId = "あなたの楽天ID";
 const yahooAffiliateId = "あなたのYahooID";
+
+// iframe高さ調整関数
+function adjustIframeHeight() {
+  if(window.frameElement){
+    var height = document.body.scrollHeight;
+    window.frameElement.style.height = height + "px";
+  } else if(window.parent){
+    // 親iframeにメッセージ送信（ブログ側で受け取れる場合）
+    window.parent.postMessage({type:"resize", height: document.body.scrollHeight}, "*");
+  }
+}
 
 document.getElementById("checkBtn").addEventListener("click", function() {
   var checked = document.querySelectorAll("input[type=checkbox]:checked");
@@ -62,6 +78,7 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 
   if (checked.length === 0) {
     result.innerHTML = "選択してください。";
+    adjustIframeHeight();
     return;
   }
 
@@ -84,7 +101,6 @@ document.getElementById("checkBtn").addEventListener("click", function() {
       itemsHtml += "<strong>"+ chk.parentNode.textContent +"</strong>";
       itemsHtml += "<div class='items'>";
       itemList.forEach(function(it){
-        // 各ショップの検索URL
         var amazonURL = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(it) + "&tag=" + amazonAffiliateId;
         var rakutenURL = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(it) + "/?f=af_id=" + rakutenAffiliateId;
         var yahooURL = "https://shopping.yahoo.co.jp/search?p=" + encodeURIComponent(it) + "&sc_i=" + yahooAffiliateId;
@@ -104,15 +120,16 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     "<h4>防災リスクスコア：" + score + "点</h4>" +
     "<strong>" + level + "</strong><br>" +
     itemsHtml;
+
+  adjustIframeHeight(); // 診断後に高さを自動調整
 });
 </script>
 
-<!-- iframe高さ固定（スクロールなし） -->
+<!-- 初期iframe高さ最小化 -->
 <script>
-var iframeHeight = 600;
-if(window.frameElement){
-  window.frameElement.style.height = iframeHeight + "px";
-}
+document.addEventListener("DOMContentLoaded", function(){
+  adjustIframeHeight();
+});
 </script>
 
 </body>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>防災診断ツール</title>
+<style>
+body { font-family: sans-serif; max-width: 400px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+h3 { margin-top: 0; }
+button { margin-top: 10px; padding: 5px 10px; }
+#result { margin-top: 15px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h3>あなたに必要な防災グッズ診断</h3>
+
+<label><input type="checkbox" value="sea"> 海が近い</label><br>
+<label><input type="checkbox" value="mountain"> 山が近い</label><br>
+<label><input type="checkbox" value="city"> 都市部</label><br>
+<label><input type="checkbox" value="normal"> 特に何もない</label><br>
+
+<button id="checkBtn">診断する</button>
+
+<div id="result"></div>
+
+<script>
+document.getElementById("checkBtn").addEventListener("click", function() {
+  var checked = document.querySelectorAll("input[type=checkbox]:checked");
+  var result = document.getElementById("result");
+  
+  if (checked.length === 0) {
+    result.innerHTML = "選択してください。";
+    return;
+  }
+
+  var items = [];
+  var score = checked.length * 25;
+
+  function addItem(name) {
+    if (items.indexOf(name) === -1) items.push(name);
+  }
+
+  for (var i = 0; i < checked.length; i++) {
+    if (checked[i].value === "sea") {
+      addItem("防水リュック");
+      addItem("ホイッスル");
+    }
+    if (checked[i].value === "mountain") {
+      addItem("ヘルメット");
+      addItem("懐中電灯");
+    }
+    if (checked[i].value === "city") {
+      addItem("モバイルバッテリー");
+      addItem("携帯トイレ");
+    }
+    if (checked[i].value === "normal") {
+      addItem("飲料水（3日分）");
+      addItem("保存食");
+    }
+  }
+
+  var level = "";
+  if (score <= 25) level = "リスク：低";
+  else if (score <= 50) level = "リスク：中";
+  else level = "リスク：高";
+
+  result.innerHTML =
+    "<h4>防災リスクスコア：" + score + "点</h4>" +
+    "<strong>" + level + "</strong><br><br>" +
+    "おすすめ防災グッズ：<br>" + items.join("<br>");
+});
+</script>
+
+</body>
+</html>

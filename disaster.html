@@ -44,7 +44,7 @@ button { margin-top: 10px; padding: 5px 10px; }
   margin-bottom: 10px;
 }
 
-#result .items div {
+#result .item-card {
   width: 100%;
   box-sizing: border-box;
   padding: 6px 8px;
@@ -63,7 +63,18 @@ button { margin-top: 10px; padding: 5px 10px; }
   gap: 6px;
 }
 
-#result .items div img {
+/* ← これが重要 */
+.item-left input[type="checkbox"] {
+  margin: 0;
+  outline: none;
+}
+
+.item-left span {
+  border: none;
+  outline: none;
+}
+
+#result .item-card img {
   width: 16px;
   height: 16px;
   margin-left: 4px;
@@ -74,7 +85,7 @@ button { margin-top: 10px; padding: 5px 10px; }
   .selection-group {
     flex: 1 1 calc(50% - 10px);
   }
-  #result .items div {
+  #result .item-card {
     width: calc(50% - 6px);
   }
 }
@@ -185,7 +196,7 @@ document.getElementById("checkBtn").addEventListener("click", function() {
         if(showYahoo) rightPart += '<a href="https://shopping.yahoo.co.jp/search?p=' + encodeURIComponent(it) + '&sc_i=' + yahooAffiliateId + '" target="_blank"><img src="https://shopping.yahoo.co.jp/favicon.ico"></a>';
         rightPart += "</span>";
 
-        itemsHtml += "<div>" + leftPart + rightPart + "</div>";
+        itemsHtml += "<div class='item-card'>" + leftPart + rightPart + "</div>";
       });
 
       itemsHtml += "</div>";
@@ -198,4 +209,5 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 
 </body>
 </html>
+
 

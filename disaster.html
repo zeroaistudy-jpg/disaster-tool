@@ -71,5 +71,22 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 });
 </script>
 
+<!-- 高さ固定でスクロールバー回避 -->
+<script>
+function adjustHeight() {
+  var bodyHeight = document.body.scrollHeight;
+  var iframes = window.frameElement ? [window.frameElement] : [];
+  iframes.forEach(function(iframe) {
+    iframe.style.height = (bodyHeight + 20) + "px"; // 少し余裕を持たせる
+  });
+}
+
+// 診断ボタンが押されるたびに高さ調整
+document.getElementById("checkBtn").addEventListener("click", adjustHeight);
+
+// ページ読み込み時にも調整
+window.addEventListener("load", adjustHeight);
+</script>
+
 </body>
 </html>

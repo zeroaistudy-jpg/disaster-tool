@@ -16,8 +16,8 @@ button { margin-top: 10px; padding: 5px 10px; }
 .selection-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px; }
 .selection-group { display: flex; align-items: center; gap: 5px; }
 
-/* 汎用グッズ通販ON/OFF */
-.checkbox-group { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+/* 汎用グッズ・通販ON/OFF余白統一 */
+.selection-group, .checkbox-group { margin-bottom: 10px; }
 
 /* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
 #result .items {
@@ -57,13 +57,14 @@ button { margin-top: 10px; padding: 5px 10px; }
     <label><input type="checkbox" value="mountain"> 山が近い</label>
     <label><input type="checkbox" value="volcano"> 火山が近い</label>
     <label><input type="checkbox" value="city"> 都市部</label>
+    <label><input type="checkbox" value="river"> 川が近い</label>
   </div>
   <div class="selection-group">
     <span>家族構成：</span>
-    <label><input type="checkbox" value="male"> 男性</label>
-    <label><input type="checkbox" value="female"> 女性</label>
-    <label><input type="checkbox" value="child"> 子供</label>
-    <label><input type="checkbox" value="elder"> 高齢者</label>
+    <label><input type="checkbox" value="male"> 男性がいる</label>
+    <label><input type="checkbox" value="female"> 女性がいる</label>
+    <label><input type="checkbox" value="child"> 子供がいる</label>
+    <label><input type="checkbox" value="elder"> 高齢者がいる</label>
   </div>
 </div>
 
@@ -73,6 +74,7 @@ button { margin-top: 10px; padding: 5px 10px; }
 </div>
 
 <div class="checkbox-group">
+  <span>通販サイトのリンク：</span>
   <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
   <label><input type="checkbox" id="showRakuten" checked> 楽天表示</label>
   <label><input type="checkbox" id="showYahoo" checked> Yahoo表示</label>
@@ -111,6 +113,7 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯","登山靴・防滑ブーツ","ロープ","簡易担架","地図・コンパス","登山用防寒着"];
     if(chk.value === "volcano") itemList = ["防塵マスク","耐火手袋","ゴーグル","耐熱服・長袖長ズボン","長靴・防水シューズ","ヘルメット"];
     if(chk.value === "city") itemList = ["携帯トイレ","防犯ブザー","簡易マスク","小型救急キット","水筒","折りたたみスツール"];
+    if(chk.value === "river") itemList = ["ライフジャケット","防水リュック","非常食","飲料水3日分","携帯ラジオ","防水ライト","簡易ボート","浮き具","ロープ","防水ブーツ","防水スマホケース"];
 
     // 家族構成別
     if(chk.value === "male") itemList = ["軽量非常食","1人用寝袋","コンパクトラジオ"];

@@ -4,10 +4,28 @@
 <meta charset="UTF-8">
 <title>防災診断ツール</title>
 <style>
-body { font-family: sans-serif; max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+body { font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
 h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { margin-top: 15px; font-weight: bold; }
+
+/* 防災グッズ2列表示 */
+#result .items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+#result .items div {
+  flex: 1 1 48%;
+  box-sizing: border-box;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center;
+  font-size: 0.9em;
+}
 </style>
 </head>
 <body>
@@ -53,29 +71,27 @@ document.getElementById("checkBtn").addEventListener("click", function() {
   else if (score <= 50) level = "リスク：中";
   else level = "リスク：高";
 
+  // 防災グッズを2列表示
+  var itemsHtml = "<div class='items'>";
+  items.forEach(function(item) {
+    itemsHtml += "<div>" + item + "</div>";
+  });
+  itemsHtml += "</div>";
+
   result.innerHTML =
     "<h4>防災リスクスコア：" + score + "点</h4>" +
-    "<strong>" + level + "</strong><br><br>" +
-    "おすすめ防災グッズ：<br>" + items.join("<br>");
+    "<strong>" + level + "</strong><br>" +
+    "おすすめ防災グッズ：" + itemsHtml;
 });
 </script>
 
-<!-- iframe高さ調整 -->
+<!-- iframe高さ固定（スクロールなし） -->
 <script>
-var iframeHeightBefore = 250; // 診断前の高さ
-var iframeHeightAfter = 600;  // 診断後の高さ
+var iframeHeight = 600; // 最大縦幅に合わせる
 
-// 診断前にiframe高さセット
 if(window.frameElement){
-  window.frameElement.style.height = iframeHeightBefore + "px";
+  window.frameElement.style.height = iframeHeight + "px";
 }
-
-// 診断ボタン押されたら高さ変更
-document.getElementById("checkBtn").addEventListener("click", function(){
-  if(window.frameElement){
-    window.frameElement.style.height = iframeHeightAfter + "px";
-  }
-});
 </script>
 
 </body>

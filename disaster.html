@@ -10,14 +10,13 @@ body {
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  container-type: inline-size; /* 追加 */
+  container-type: inline-size;
 }
 
 h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { margin-top: 15px; min-height: 50px; }
 
-/* 選択肢コンテナ */
 .selection-container {
   display: flex;
   flex-wrap: wrap;
@@ -25,7 +24,6 @@ button { margin-top: 10px; padding: 5px 10px; }
   margin-bottom: 15px;
 }
 
-/* 各選択肢グループ */
 .selection-group {
   display: flex;
   flex-direction: column;
@@ -33,13 +31,11 @@ button { margin-top: 10px; padding: 5px 10px; }
   flex: 1 1 100%;
 }
 
-/* タイトル太字 */
 .selection-group span {
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-/* 防災グッズ表示 */
 #result .items {
   display: flex;
   flex-wrap: wrap;
@@ -61,7 +57,12 @@ button { margin-top: 10px; padding: 5px 10px; }
   font-size: 0.9em;
 }
 
-/* アイコン固定サイズ */
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 #result .items div img {
   width: 16px;
   height: 16px;
@@ -69,17 +70,13 @@ button { margin-top: 10px; padding: 5px 10px; }
   flex-shrink: 0;
 }
 
-/* ===== 横幅600px以上で2列（Container Query） ===== */
 @container (min-width: 500px) {
-
   .selection-group {
     flex: 1 1 calc(50% - 10px);
   }
-
   #result .items div {
     width: calc(50% - 6px);
   }
-
 }
 </style>
 </head>
@@ -88,7 +85,7 @@ button { margin-top: 10px; padding: 5px 10px; }
 <h3>あなたに必要な防災グッズ診断</h3>
 
 <div class="selection-container">
-  <!-- 想定する災害 -->
+
   <div class="selection-group">
     <span>想定する災害</span>
     <label><input type="checkbox" value="earthquake"> 地震対策</label>
@@ -100,7 +97,6 @@ button { margin-top: 10px; padding: 5px 10px; }
     <label><input type="checkbox" value="landslide"> 土砂災害対策（山が近い）</label>
   </div>
 
-  <!-- あなたの家族構成 -->
   <div class="selection-group">
     <span>あなたの家族構成</span>
     <label><input type="checkbox" value="male"> 男性がいる</label>
@@ -110,19 +106,19 @@ button { margin-top: 10px; padding: 5px 10px; }
     <label><input type="checkbox" value="baby"> 赤ちゃんがいる</label>
   </div>
 
-  <!-- 汎用防災グッズ -->
   <div class="selection-group">
     <span>汎用防災グッズ</span>
-    <label><input type="checkbox" value="generic"> 必要な汎用防災グッズ</label>
+    <label><input type="checkbox" value="generic"> 汎用防災グッズ</label>
+    <label><input type="checkbox" id="showItemCheck" checked> 持ち物確認用のチェックボックス</label>
   </div>
 
-  <!-- 通販サイトリンク -->
   <div class="selection-group">
     <span>通販サイトリンク</span>
     <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
     <label><input type="checkbox" id="showRakuten" checked> 楽天表示</label>
     <label><input type="checkbox" id="showYahoo" checked> Yahoo表示</label>
   </div>
+
 </div>
 
 <button id="checkBtn">診断する</button>
@@ -130,12 +126,12 @@ button { margin-top: 10px; padding: 5px 10px; }
 <div id="result"></div>
 
 <script>
-// アフィリエイトID
 const amazonAffiliateId = "あなたのAmazonID";
 const rakutenAffiliateId = "あなたの楽天ID";
 const yahooAffiliateId = "あなたのYahooID";
 
 document.getElementById("checkBtn").addEventListener("click", function() {
+
   var checked = document.querySelectorAll("input[type=checkbox]:checked");
   var result = document.getElementById("result");
 
@@ -147,13 +143,14 @@ document.getElementById("checkBtn").addEventListener("click", function() {
   var showAmazon = document.getElementById("showAmazon").checked;
   var showRakuten = document.getElementById("showRakuten").checked;
   var showYahoo = document.getElementById("showYahoo").checked;
+  var showItemCheck = document.getElementById("showItemCheck").checked;
 
   var itemsHtml = "";
 
   checked.forEach(function(chk){
+
     var itemList = [];
 
-    // 災害別
     if(chk.value === "earthquake") itemList = ["耐震マット","家具転倒防止突っ張り棒","ガラス飛散防止フィルム","ヘルメット","安全靴（踏み抜き防止）","消火器","感震ブレーカー","家具固定ベルト","防災ずきん"];
     if(chk.value === "heavyRain") itemList = ["止水板","吸水土のう","防水テープ","排水ポンプ","逆流防止弁","防水コンセントカバー","雨量計","側溝掃除用スコップ"];
     if(chk.value === "snow") itemList = ["スノーブラシ","タイヤチェーン","凍結防止スプレー","雪かきスコップ","スノーダンプ","屋根雪落とし棒","滑り止めスパイク","解氷剤"];
@@ -162,28 +159,35 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     if(chk.value === "volcano") itemList = ["防塵ゴーグル","N95マスク","火山灰用ほうき","耐熱手袋","防炎シート","灰除去ブラシ","車用防塵カバー","耐熱レインウェア"];
     if(chk.value === "landslide") itemList = ["登山用ヘルメット","厚手作業手袋","強化型防塵マスク","折りたたみスコップ","救助用ロープ","カラビナ","救助用ハンマー","防災ナイフ"];
 
-    // 家族構成別
     if(chk.value === "male") itemList = ["軽量非常食","1人用寝袋","コンパクトラジオ"];
     if(chk.value === "female") itemList = ["軽量非常食","化粧品小物","コンパクトラジオ"];
     if(chk.value === "child") itemList = ["子供用救急セット","乳幼児用食料","おむつ","抱っこ紐"];
     if(chk.value === "elder") itemList = ["杖対応靴","服薬セット","補助具","軽量椅子"];
     if(chk.value === "baby") itemList = ["乳幼児用食料","おむつ","抱っこ紐","ベビーカーカバー"];
 
-    // 汎用
     if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","救急セット","防寒具","帽子","エマージェンシーシート"];
 
     if(itemList.length > 0){
-      // タイトル太字
       itemsHtml += "<strong>" + chk.parentNode.textContent.trim() + "</strong>";
       itemsHtml += "<div class='items'>";
+
       itemList.forEach(function(it){
-        var html = it + '<span>';
-        if(showAmazon) html += '<a href="https://www.amazon.co.jp/s?k=' + encodeURIComponent(it) + '&tag=' + amazonAffiliateId + '" target="_blank"><img src="https://www.amazon.co.jp/favicon.ico" alt="Amazon"></a>';
-        if(showRakuten) html += '<a href="https://search.rakuten.co.jp/search/mall/' + encodeURIComponent(it) + '/?f=af_id=' + rakutenAffiliateId + '" target="_blank"><img src="https://www.rakuten.co.jp/favicon.ico" alt="楽天"></a>';
-        if(showYahoo) html += '<a href="https://shopping.yahoo.co.jp/search?p=' + encodeURIComponent(it) + '&sc_i=' + yahooAffiliateId + '" target="_blank"><img src="https://shopping.yahoo.co.jp/favicon.ico" alt="Yahoo"></a>';
-        html += '</span>';
-        itemsHtml += "<div>" + html + "</div>";
+
+        var leftPart = "<div class='item-left'>";
+        if(showItemCheck){
+          leftPart += "<input type='checkbox'>";
+        }
+        leftPart += "<span>" + it + "</span></div>";
+
+        var rightPart = "<span>";
+        if(showAmazon) rightPart += '<a href="https://www.amazon.co.jp/s?k=' + encodeURIComponent(it) + '&tag=' + amazonAffiliateId + '" target="_blank"><img src="https://www.amazon.co.jp/favicon.ico"></a>';
+        if(showRakuten) rightPart += '<a href="https://search.rakuten.co.jp/search/mall/' + encodeURIComponent(it) + '/?f=af_id=' + rakutenAffiliateId + '" target="_blank"><img src="https://www.rakuten.co.jp/favicon.ico"></a>';
+        if(showYahoo) rightPart += '<a href="https://shopping.yahoo.co.jp/search?p=' + encodeURIComponent(it) + '&sc_i=' + yahooAffiliateId + '" target="_blank"><img src="https://shopping.yahoo.co.jp/favicon.ico"></a>';
+        rightPart += "</span>";
+
+        itemsHtml += "<div>" + leftPart + rightPart + "</div>";
       });
+
       itemsHtml += "</div>";
     }
   });
@@ -194,7 +198,3 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 
 </body>
 </html>
-
-
-
-

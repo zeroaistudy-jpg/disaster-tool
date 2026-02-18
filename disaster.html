@@ -2,157 +2,175 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>防災グッズ診断</title>
-
+<title>防災診断ツール</title>
 <style>
-.tool-wrapper {
-  width: 100%;
-  max-width: 100%;
-  font-family: sans-serif;
-  padding: 16px;
-  box-sizing: border-box;
-  container-type: inline-size;
-}
+body { font-family: sans-serif; max-width: 700px; margin: 0 auto; padding: 20px; }
+h3 { margin-top: 0; }
+button { margin-top: 10px; padding: 5px 10px; }
+#result { margin-top: 15px; min-height: 50px; }
 
-/* ===== ボタン ===== */
-
-.button-area {
+/* 選択肢コンテナ */
+.selection-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 20px;
+  margin-bottom: 15px;
 }
 
-.button-area button {
-  flex: 1 1 100%;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: #0077cc;
-  color: #fff;
+/* 各選択肢グループ */
+.selection-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1 1 100%; /* デフォルトは1列 */
 }
 
-.button-area button:hover {
-  opacity: 0.85;
+/* タイトル太字 */
+.selection-group span {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-/* ===== 結果 ===== */
-
-#result strong {
-  display: block;
-  margin-top: 16px;
-  font-size: 16px;
-}
-
-.items {
+/* 防災グッズ表示 */
+#result .items {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
-
-.items div {
-  width: 100%;
+#result .items div {
+  flex: 0 1 100%; /* デフォルトは1列 */
   box-sizing: border-box;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #f8f8f8;
+  padding: 5px;
+  border: 1px solid #ccc; 
+  border-radius: 5px;
+  background-color: #f9f9f9; 
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
   align-items: center;
-  font-size: 14px;
+  font-size: 0.9em;
+}
+#result .items div img {
+  width: 16px;
+  height: 16px;
+  margin-left: 3px;
 }
 
-/* アイコン固定 */
-.items img {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  margin-left: 8px;
-  flex-shrink: 0;
-}
-
-/* ===== 横幅600px以上で2列 ===== */
-
-@container (min-width: 600px) {
-  .button-area button {
-    flex: 1 1 calc(50% - 8px);
+/* PC向け: 選択肢2列、診断結果グッズ2列 */
+@media(min-width: 768px) {
+  .selection-group {
+    flex: 1 1 48%; /* 選択肢2列 */
   }
-
-  .items div {
-    width: calc(50% - 8px);
+  #result .items div {
+    flex: 0 1 48%; /* 診断結果グッズ2列 */
   }
 }
 </style>
 </head>
-
 <body>
-<div class="tool-wrapper">
 
-  <div class="button-area">
-    <button onclick="showResult('earthquake')">地震対策</button>
-    <button onclick="showResult('tsunami')">津波対策</button>
+<h3>あなたに必要な防災グッズ診断</h3>
+
+<div class="selection-container">
+  <!-- あなたの地域 -->
+  <div class="selection-group">
+    <span>あなたの地域</span>
+    <label><input type="checkbox" value="sea"> 海が近い</label>
+    <label><input type="checkbox" value="mountain"> 山が近い</label>
+    <label><input type="checkbox" value="volcano"> 火山が近い</label>
+    <label><input type="checkbox" value="city"> 都市部</label>
+    <label><input type="checkbox" value="river"> 川が近い</label>
   </div>
 
-  <div id="result"></div>
+  <!-- あなたの家族構成 -->
+  <div class="selection-group">
+    <span>あなたの家族構成</span>
+    <label><input type="checkbox" value="male"> 男性がいる</label>
+    <label><input type="checkbox" value="female"> 女性がいる</label>
+    <label><input type="checkbox" value="child"> 子供がいる</label>
+    <label><input type="checkbox" value="elder"> 高齢者がいる</label>
+    <label><input type="checkbox" value="baby"> 赤ちゃんがいる</label>
+  </div>
 
+  <!-- 汎用防災グッズ -->
+  <div class="selection-group">
+    <span>汎用防災グッズ</span>
+    <label><input type="checkbox" value="generic"> 必要な汎用防災グッズ</label>
+  </div>
+
+  <!-- 通販サイトリンク -->
+  <div class="selection-group">
+    <span>通販サイトリンク</span>
+    <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
+    <label><input type="checkbox" id="showRakuten" checked> 楽天表示</label>
+    <label><input type="checkbox" id="showYahoo" checked> Yahoo表示</label>
+  </div>
 </div>
 
+<button id="checkBtn">診断する</button>
+
+<div id="result"></div>
+
 <script>
-function showResult(type) {
+// アフィリエイトID
+const amazonAffiliateId = "あなたのAmazonID";
+const rakutenAffiliateId = "あなたの楽天ID";
+const yahooAffiliateId = "あなたのYahooID";
 
-  const goods = {
-    earthquake: [
-      "飲料水",
-      "非常食",
-      "モバイルバッテリー",
-      "懐中電灯",
-      "ヘルメット",
-      "防寒シート",
-      "簡易トイレ",
-      "救急セット"
-    ],
-    tsunami: [
-      "防水バッグ",
-      "飲料水",
-      "非常食",
-      "防寒具",
-      "ホイッスル",
-      "モバイルバッテリー",
-      "簡易トイレ",
-      "救急セット"
-    ]
-  };
+document.getElementById("checkBtn").addEventListener("click", function() {
+  var checked = document.querySelectorAll("input[type=checkbox]:checked");
+  var result = document.getElementById("result");
 
-  const result = document.getElementById("result");
-  result.innerHTML = "";
+  if (checked.length === 0) {
+    result.innerHTML = "選択してください。";
+    return;
+  }
 
-  const title = document.createElement("strong");
-  title.textContent = "おすすめ防災グッズ";
-  result.appendChild(title);
+  var showAmazon = document.getElementById("showAmazon").checked;
+  var showRakuten = document.getElementById("showRakuten").checked;
+  var showYahoo = document.getElementById("showYahoo").checked;
 
-  const itemsDiv = document.createElement("div");
-  itemsDiv.className = "items";
+  var itemsHtml = "";
 
-  goods[type].forEach(item => {
+  checked.forEach(function(chk){
+    var itemList = [];
 
-    const itemDiv = document.createElement("div");
-    itemDiv.textContent = item;
+    // 地域別
+    if(chk.value === "sea") itemList = ["防水リュック","ライフジャケット","救命浮き具","防水ブーツ","防水スマホケース","浮き輪・ロープ","非常食","飲料水3日分","携帯ラジオ","防水ライト"];
+    if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯","登山靴・防滑ブーツ","ロープ","簡易担架","地図・コンパス","登山用防寒着"];
+    if(chk.value === "volcano") itemList = ["防塵マスク","耐火手袋","ゴーグル","耐熱服・長袖長ズボン","長靴・防水シューズ","ヘルメット"];
+    if(chk.value === "city") itemList = ["携帯トイレ","防犯ブザー","簡易マスク","小型救急キット","水筒","折りたたみスツール"];
+    if(chk.value === "river") itemList = ["ライフジャケット","防水リュック","非常食","飲料水3日分","携帯ラジオ","防水ライト","簡易ボート","浮き具","ロープ","防水ブーツ","防水スマホケース"];
 
-    const icon = document.createElement("img");
-    icon.src = "https://cdn-icons-png.flaticon.com/512/107/107831.png";
-    icon.alt = "通販";
+    // 家族構成別
+    if(chk.value === "male") itemList = ["軽量非常食","1人用寝袋","コンパクトラジオ"];
+    if(chk.value === "female") itemList = ["軽量非常食","化粧品小物","コンパクトラジオ"];
+    if(chk.value === "child") itemList = ["子供用救急セット","乳幼児用食料","おむつ","抱っこ紐"];
+    if(chk.value === "elder") itemList = ["杖対応靴","服薬セット","補助具","軽量椅子"];
+    if(chk.value === "baby") itemList = ["乳幼児用食料","おむつ","抱っこ紐","ベビーカーカバー"];
 
-    itemDiv.appendChild(icon);
-    itemsDiv.appendChild(itemDiv);
+    // 汎用
+    if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","救急セット","防寒具","帽子","エマージェンシーシート"];
+
+    if(itemList.length > 0){
+      // タイトル太字
+      itemsHtml += "<strong>" + chk.parentNode.textContent.trim() + "</strong>";
+      itemsHtml += "<div class='items'>";
+      itemList.forEach(function(it){
+        var html = it + '<span>';
+        if(showAmazon) html += '<a href="https://www.amazon.co.jp/s?k=' + encodeURIComponent(it) + '&tag=' + amazonAffiliateId + '" target="_blank"><img src="https://www.amazon.co.jp/favicon.ico" alt="Amazon"></a>';
+        if(showRakuten) html += '<a href="https://search.rakuten.co.jp/search/mall/' + encodeURIComponent(it) + '/?f=af_id=' + rakutenAffiliateId + '" target="_blank"><img src="https://www.rakuten.co.jp/favicon.ico" alt="楽天"></a>';
+        if(showYahoo) html += '<a href="https://shopping.yahoo.co.jp/search?p=' + encodeURIComponent(it) + '&sc_i=' + yahooAffiliateId + '" target="_blank"><img src="https://shopping.yahoo.co.jp/favicon.ico" alt="Yahoo"></a>';
+        html += '</span>';
+        itemsHtml += "<div>" + html + "</div>";
+      });
+      itemsHtml += "</div>";
+    }
   });
 
-  result.appendChild(itemsDiv);
-}
+  result.innerHTML = itemsHtml;
+});
 </script>
 
 </body>

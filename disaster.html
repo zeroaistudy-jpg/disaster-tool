@@ -25,13 +25,14 @@ button { margin-top: 10px; padding: 5px 10px; }
   border-radius: 5px;
   background-color: #f9f9f9; /* 背景あり */
   display: flex;
-  justify-content: space-between; /* 左：グッズ名 / 右：Amazonアイコン */
+  justify-content: space-between; /* 左：グッズ名 / 右：アイコン群 */
   align-items: center;
   font-size: 0.9em;
 }
 #result .items div img {
   width: 16px;
   height: 16px;
+  margin-left: 3px;
 }
 </style>
 </head>
@@ -50,8 +51,10 @@ button { margin-top: 10px; padding: 5px 10px; }
 <div id="result"></div>
 
 <script>
-// あなたのAmazonアフィリエイトID
-const amazonAffiliateId = "あなたのアフィID"; // ←ここにアフィIDを入れてください
+// あなたのアフィリエイトID
+const amazonAffiliateId = "あなたのAmazonID";
+const rakutenAffiliateId = "あなたの楽天ID";
+const yahooAffiliateId = "あなたのYahooID";
 
 document.getElementById("checkBtn").addEventListener("click", function() {
   var checked = document.querySelectorAll("input[type=checkbox]:checked");
@@ -81,11 +84,17 @@ document.getElementById("checkBtn").addEventListener("click", function() {
       itemsHtml += "<strong>"+ chk.parentNode.textContent +"</strong>";
       itemsHtml += "<div class='items'>";
       itemList.forEach(function(it){
-        var url = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(it) + "&tag=" + amazonAffiliateId;
-        itemsHtml += "<div>" + it + 
-                     '<a href="' + url + '" target="_blank">' +
-                     '<img src="https://www.amazon.co.jp/favicon.ico" alt="Amazon">' +
-                     "</a></div>";
+        // 各ショップの検索URL
+        var amazonURL = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(it) + "&tag=" + amazonAffiliateId;
+        var rakutenURL = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(it) + "/?f=af_id=" + rakutenAffiliateId;
+        var yahooURL = "https://shopping.yahoo.co.jp/search?p=" + encodeURIComponent(it) + "&sc_i=" + yahooAffiliateId;
+
+        itemsHtml += "<div>" + it +
+          '<span>' +
+          '<a href="' + amazonURL + '" target="_blank"><img src="https://www.amazon.co.jp/favicon.ico" alt="Amazon"></a>' +
+          '<a href="' + rakutenURL + '" target="_blank"><img src="https://www.rakuten.co.jp/favicon.ico" alt="楽天"></a>' +
+          '<a href="' + yahooURL + '" target="_blank"><img src="https://shopping.yahoo.co.jp/favicon.ico" alt="Yahoo"></a>' +
+          '</span></div>';
       });
       itemsHtml += "</div>";
     }

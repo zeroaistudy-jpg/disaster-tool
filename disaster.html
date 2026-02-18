@@ -7,13 +7,16 @@
 
 <style>
 .tool-wrapper {
-  max-width: 720px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
   font-family: sans-serif;
   padding: 15px;
+
+  /* これが重要 */
+  container-type: inline-size;
 }
 
-h3 { margin-top: 0; }
+/* ===== 選択肢 ===== */
 
 .selection-container {
   display: flex;
@@ -23,16 +26,10 @@ h3 { margin-top: 0; }
 }
 
 .selection-group {
-  flex: 1 1 48%;
+  flex: 1 1 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-@media (max-width: 640px) {
-  .selection-group {
-    flex: 1 1 100%;
-  }
 }
 
 .selection-group span {
@@ -40,10 +37,7 @@ h3 { margin-top: 0; }
   margin-bottom: 6px;
 }
 
-button {
-  margin-top: 10px;
-  padding: 6px 12px;
-}
+/* ===== 診断結果 ===== */
 
 #result {
   margin-top: 20px;
@@ -52,7 +46,6 @@ button {
 #result strong {
   display: block;
   margin-top: 12px;
-  font-size: 15px;
 }
 
 #result .items {
@@ -64,7 +57,7 @@ button {
 }
 
 #result .items div {
-  flex: 0 1 calc(50% - 6px);
+  flex: 0 1 100%;
   box-sizing: border-box;
   padding: 8px;
   border: 1px solid #ddd;
@@ -76,16 +69,26 @@ button {
   font-size: 14px;
 }
 
-@media (max-width: 640px) {
-  #result .items div {
-    flex: 0 1 100%;
-  }
-}
-
 #result img {
   width: 16px;
   height: 16px;
   margin-left: 4px;
+}
+
+/* =====================================
+   横幅が600px以上なら2列にする
+   ===================================== */
+
+@container (min-width: 600px) {
+
+  .selection-group {
+    flex: 1 1 48%;
+  }
+
+  #result .items div {
+    flex: 0 1 calc(50% - 6px);
+  }
+
 }
 </style>
 </head>
@@ -197,3 +200,4 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 
 </body>
 </html>
+

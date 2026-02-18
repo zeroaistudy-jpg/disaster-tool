@@ -12,12 +12,36 @@ button { margin-top: 10px; padding: 5px 10px; }
   min-height: 50px; 
 }
 
-/* 選択肢横並び */
-.selection-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px; }
-.selection-group { display: flex; align-items: center; gap: 5px; }
+/* チェックボックス選択肢全般 */
+.selection-group {
+  display: flex; 
+  align-items: flex-start; 
+  gap: 5px; 
+  margin-bottom: 15px; /* 各選択肢縦余白個別調整 */
+}
 
-/* 汎用グッズ・通販ON/OFF余白統一 */
-.selection-group, .checkbox-group { margin-bottom: 10px; }
+/* タイトル固定幅でチェックボックス揃え */
+.selection-group span {
+  display: inline-block;
+  width: 120px; /* タイトル幅固定 */
+  line-height: 1.5em;
+}
+
+/* 選択肢横並び */
+.selection-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-right: 10px;
+}
+
+/* 汎用グッズ・通販ON/OFF */
+.checkbox-group {
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+  margin-bottom: 15px; /* 個別余白 */
+}
 
 /* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
 #result .items {
@@ -50,22 +74,21 @@ button { margin-top: 10px; padding: 5px 10px; }
 
 <h3>あなたに必要な防災グッズ診断</h3>
 
-<div class="selection-row">
-  <div class="selection-group">
-    <span>地域：</span>
-    <label><input type="checkbox" value="sea"> 海が近い</label>
-    <label><input type="checkbox" value="mountain"> 山が近い</label>
-    <label><input type="checkbox" value="volcano"> 火山が近い</label>
-    <label><input type="checkbox" value="city"> 都市部</label>
-    <label><input type="checkbox" value="river"> 川が近い</label>
-  </div>
-  <div class="selection-group">
-    <span>家族構成：</span>
-    <label><input type="checkbox" value="male"> 男性がいる</label>
-    <label><input type="checkbox" value="female"> 女性がいる</label>
-    <label><input type="checkbox" value="child"> 子供がいる</label>
-    <label><input type="checkbox" value="elder"> 高齢者がいる</label>
-  </div>
+<div class="selection-group">
+  <span>あなたの地域：</span>
+  <label><input type="checkbox" value="sea"> 海が近い</label>
+  <label><input type="checkbox" value="mountain"> 山が近い</label>
+  <label><input type="checkbox" value="volcano"> 火山が近い</label>
+  <label><input type="checkbox" value="city"> 都市部</label>
+  <label><input type="checkbox" value="river"> 川が近い</label>
+</div>
+
+<div class="selection-group">
+  <span>あなたの家族構成：</span>
+  <label><input type="checkbox" value="male"> 男性がいる</label>
+  <label><input type="checkbox" value="female"> 女性がいる</label>
+  <label><input type="checkbox" value="child"> 子供がいる</label>
+  <label><input type="checkbox" value="elder"> 高齢者がいる</label>
 </div>
 
 <div class="selection-group">
@@ -74,7 +97,7 @@ button { margin-top: 10px; padding: 5px 10px; }
 </div>
 
 <div class="checkbox-group">
-  <span>通販サイトのリンク：</span>
+  <span>通販サイトリンク：</span>
   <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
   <label><input type="checkbox" id="showRakuten" checked> 楽天表示</label>
   <label><input type="checkbox" id="showYahoo" checked> Yahoo表示</label>

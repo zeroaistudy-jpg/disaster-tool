@@ -24,6 +24,23 @@ button { margin-top: 10px; padding: 5px 10px; }
 <div id="result"></div>
 
 <script>
+var iframeHeightBefore = 250; // 診断前の高さ
+var iframeHeightAfter = 600;  // 診断後の高さ
+
+// 診断前の高さをiframeに伝える
+if(window.frameElement){
+  window.frameElement.style.height = iframeHeightBefore + "px";
+}
+
+// 診断ボタン押されたら高さを変更
+document.getElementById("checkBtn").addEventListener("click", function(){
+  if(window.frameElement){
+    window.frameElement.style.height = iframeHeightAfter + "px";
+  }
+});
+</script>
+
+<script>
 document.getElementById("checkBtn").addEventListener("click", function() {
   var checked = document.querySelectorAll("input[type=checkbox]:checked");
   var result = document.getElementById("result");
@@ -90,3 +107,4 @@ window.addEventListener("load", adjustHeight);
 
 </body>
 </html>
+

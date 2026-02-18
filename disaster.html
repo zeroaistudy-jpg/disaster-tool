@@ -9,7 +9,7 @@ h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { margin-top: 15px; min-height: 50px; }
 
-/* 2列レイアウト */
+/* 選択肢コンテナ */
 .selection-container {
   display: flex;
   flex-wrap: wrap;
@@ -19,19 +19,19 @@ button { margin-top: 10px; padding: 5px 10px; }
 
 /* 各選択肢グループ */
 .selection-group {
-  flex: 1 1 300px;
   display: flex;
-  flex-direction: column; /* 縦積み */
+  flex-direction: column;
   gap: 5px;
+  flex: 1 1 100%; /* デフォルトは1列 */
 }
 
-/* タイトル強調 */
+/* タイトル太字 */
 .selection-group span {
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-/* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
+/* 防災グッズ表示 */
 #result .items {
   display: flex;
   flex-wrap: wrap;
@@ -40,7 +40,7 @@ button { margin-top: 10px; padding: 5px 10px; }
   margin-bottom: 10px;
 }
 #result .items div {
-  flex: 0 1 48%; /* 2列均等、奇数でも均等幅 */
+  flex: 0 1 100%; /* デフォルトは1列 */
   box-sizing: border-box;
   padding: 5px;
   border: 1px solid #ccc; 
@@ -56,6 +56,16 @@ button { margin-top: 10px; padding: 5px 10px; }
   height: 16px;
   margin-left: 3px;
 }
+
+/* PC向け: 選択肢2列、診断結果グッズ2列 */
+@media(min-width: 768px) {
+  .selection-group {
+    flex: 1 1 48%; /* 選択肢2列 */
+  }
+  #result .items div {
+    flex: 0 1 48%; /* 診断結果グッズ2列 */
+  }
+}
 </style>
 </head>
 <body>
@@ -63,7 +73,7 @@ button { margin-top: 10px; padding: 5px 10px; }
 <h3>あなたに必要な防災グッズ診断</h3>
 
 <div class="selection-container">
-  <!-- 左列 -->
+  <!-- あなたの地域 -->
   <div class="selection-group">
     <span>あなたの地域</span>
     <label><input type="checkbox" value="sea"> 海が近い</label>
@@ -73,6 +83,7 @@ button { margin-top: 10px; padding: 5px 10px; }
     <label><input type="checkbox" value="river"> 川が近い</label>
   </div>
 
+  <!-- あなたの家族構成 -->
   <div class="selection-group">
     <span>あなたの家族構成</span>
     <label><input type="checkbox" value="male"> 男性がいる</label>
@@ -82,11 +93,13 @@ button { margin-top: 10px; padding: 5px 10px; }
     <label><input type="checkbox" value="baby"> 赤ちゃんがいる</label>
   </div>
 
+  <!-- 汎用防災グッズ -->
   <div class="selection-group">
     <span>汎用防災グッズ</span>
     <label><input type="checkbox" value="generic"> 必要な汎用防災グッズ</label>
   </div>
 
+  <!-- 通販サイトリンク -->
   <div class="selection-group">
     <span>通販サイトリンク</span>
     <label><input type="checkbox" id="showAmazon" checked> Amazon表示</label>
@@ -141,7 +154,7 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","救急セット","防寒具","帽子","エマージェンシーシート"];
 
     if(itemList.length > 0){
-      // タイトルを太字
+      // タイトル太字
       itemsHtml += "<strong>" + chk.parentNode.textContent.trim() + "</strong>";
       itemsHtml += "<div class='items'>";
       itemList.forEach(function(it){

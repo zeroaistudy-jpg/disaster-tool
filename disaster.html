@@ -10,8 +10,7 @@ button { margin-top: 10px; padding: 5px 10px; }
 #result { 
   margin-top: 15px; 
   font-weight: bold; 
-  min-height: 50px; /* 診断前は空白を小さく */
-  transition: height 0.2s;
+  min-height: 50px; 
 }
 
 /* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
@@ -26,11 +25,11 @@ button { margin-top: 10px; padding: 5px 10px; }
   flex: 1 1 48%;
   box-sizing: border-box;
   padding: 5px;
-  border: 1px solid #ccc; /* 枠あり */
+  border: 1px solid #ccc; 
   border-radius: 5px;
-  background-color: #f9f9f9; /* 背景あり */
+  background-color: #f9f9f9; 
   display: flex;
-  justify-content: space-between; /* 左：グッズ名 / 右：アイコン群 */
+  justify-content: space-between; 
   align-items: center;
   font-size: 0.9em;
 }
@@ -45,11 +44,12 @@ button { margin-top: 10px; padding: 5px 10px; }
 
 <h3>あなたに必要な防災グッズ診断</h3>
 
+<p>地域：</p>
 <label><input type="checkbox" value="sea"> 海が近い</label><br>
 <label><input type="checkbox" value="mountain"> 山が近い</label><br>
 <label><input type="checkbox" value="city"> 都市部</label><br>
 <label><input type="checkbox" value="volcano"> 火山が近い</label><br>
-<label><input type="checkbox" value="none"> どれも該当しない</label><br>
+<label><input type="checkbox" value="generic"> 汎用防災グッズ</label><br>
 
 <button id="checkBtn">診断する</button>
 
@@ -61,24 +61,12 @@ const amazonAffiliateId = "あなたのAmazonID";
 const rakutenAffiliateId = "あなたの楽天ID";
 const yahooAffiliateId = "あなたのYahooID";
 
-// iframe高さ調整関数
-function adjustIframeHeight() {
-  if(window.frameElement){
-    var height = document.body.scrollHeight;
-    window.frameElement.style.height = height + "px";
-  } else if(window.parent){
-    // 親iframeにメッセージ送信（ブログ側で受け取れる場合）
-    window.parent.postMessage({type:"resize", height: document.body.scrollHeight}, "*");
-  }
-}
-
 document.getElementById("checkBtn").addEventListener("click", function() {
   var checked = document.querySelectorAll("input[type=checkbox]:checked");
   var result = document.getElementById("result");
 
   if (checked.length === 0) {
     result.innerHTML = "選択してください。";
-    adjustIframeHeight();
     return;
   }
 
@@ -91,11 +79,11 @@ document.getElementById("checkBtn").addEventListener("click", function() {
   var itemsHtml = "";
   checked.forEach(function(chk){
     var itemList = [];
-    if(chk.value === "sea") itemList = ["防水リュック","ホイッスル"];
-    if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯"];
-    if(chk.value === "city") itemList = ["モバイルバッテリー","携帯トイレ"];
-    if(chk.value === "volcano") itemList = ["防塵マスク","耐火手袋"];
-    if(chk.value === "none") itemList = ["飲料水（3日分）","保存食"];
+    if(chk.value === "sea") itemList = ["防水リュック","ライフジャケット","救命浮き具","防水ブーツ","防水スマホケース","浮き輪・ロープ","非常食","飲料水3日分","携帯ラジオ","防水ライト"];
+    if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯","登山靴・防滑ブーツ","ロープ","簡易担架","地図・コンパス","登山用防寒着"];
+    if(chk.value === "city") itemList = ["携帯トイレ","防犯ブザー","簡易マスク","小型救急キット","水筒","折りたたみスツール"];
+    if(chk.value === "volcano") itemList = ["防塵マスク","耐火手袋","ゴーグル","耐熱服・長袖長ズボン","長靴・防水シューズ","ヘルメット"];
+    if(chk.value === "generic") itemList = ["飲料水3日分","保存食","懐中電灯","予備電池","モバイルバッテリー","非常用トイレ","簡易寝袋・毛布","笛","マスク","手袋","ラジオ","簡易寝袋・毛布","救急セット","防寒具","帽子","エマージェンシーシート"];
 
     if(itemList.length > 0){
       itemsHtml += "<strong>"+ chk.parentNode.textContent +"</strong>";
@@ -120,15 +108,6 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     "<h4>防災リスクスコア：" + score + "点</h4>" +
     "<strong>" + level + "</strong><br>" +
     itemsHtml;
-
-  adjustIframeHeight(); // 診断後に高さを自動調整
-});
-</script>
-
-<!-- 初期iframe高さ最小化 -->
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  adjustIframeHeight();
 });
 </script>
 

@@ -9,7 +9,7 @@ h3 { margin-top: 0; }
 button { margin-top: 10px; padding: 5px 10px; }
 #result { margin-top: 15px; font-weight: bold; }
 
-/* 防災グッズ2列表示・左寄せ・枠なし */
+/* 防災グッズ2列表示・左寄せ・枠あり・背景あり */
 #result .items {
   display: flex;
   flex-wrap: wrap;
@@ -21,9 +21,9 @@ button { margin-top: 10px; padding: 5px 10px; }
   flex: 1 1 48%;
   box-sizing: border-box;
   padding: 5px;
-  border: none; /* 枠なし */
-  border-radius: 0;
-  background-color: transparent; /* 背景透明 */
+  border: 1px solid #ccc; /* 枠あり */
+  border-radius: 5px;
+  background-color: #f9f9f9; /* 背景色あり */
   text-align: left;
   font-size: 0.9em;
 }

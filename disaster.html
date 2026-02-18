@@ -36,7 +36,8 @@ button { margin-top: 10px; padding: 5px 10px; }
 <label><input type="checkbox" value="sea"> 海が近い</label><br>
 <label><input type="checkbox" value="mountain"> 山が近い</label><br>
 <label><input type="checkbox" value="city"> 都市部</label><br>
-<label><input type="checkbox" value="normal"> 特に何もない</label><br>
+<label><input type="checkbox" value="volcano"> 火山が近い</label><br>
+<label><input type="checkbox" value="none"> どれも該当しない</label><br>
 
 <button id="checkBtn">診断する</button>
 
@@ -65,7 +66,8 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     if(chk.value === "sea") itemList = ["防水リュック","ホイッスル"];
     if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯"];
     if(chk.value === "city") itemList = ["モバイルバッテリー","携帯トイレ"];
-    if(chk.value === "normal") itemList = ["飲料水（3日分）","保存食"];
+    if(chk.value === "volcano") itemList = ["防塵マスク","耐火手袋"];
+    if(chk.value === "none") itemList = ["飲料水（3日分）","保存食"];
 
     if(itemList.length > 0){
       // 選択肢名表示

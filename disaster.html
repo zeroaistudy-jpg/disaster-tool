@@ -88,14 +88,16 @@ button { margin-top: 10px; padding: 5px 10px; }
 <h3>あなたに必要な防災グッズ診断</h3>
 
 <div class="selection-container">
-  <!-- あなたの地域 -->
+  <!-- 想定する災害 -->
   <div class="selection-group">
-    <span>あなたの地域</span>
-    <label><input type="checkbox" value="sea"> 海が近い</label>
-    <label><input type="checkbox" value="mountain"> 山が近い</label>
-    <label><input type="checkbox" value="volcano"> 火山が近い</label>
-    <label><input type="checkbox" value="city"> 都市部</label>
-    <label><input type="checkbox" value="river"> 川が近い</label>
+    <span>想定する災害</span>
+    <label><input type="checkbox" value="earthquake"> 地震対策</label>
+    <label><input type="checkbox" value="heavyRain"> 豪雨対策</label>
+    <label><input type="checkbox" value="snow"> 大雪対策</label>
+    <label><input type="checkbox" value="typhoon"> 台風・突風対策</label>
+    <label><input type="checkbox" value="tsunami"> 津波対策（海が近い）</label>
+    <label><input type="checkbox" value="volcano"> 噴火対策（火山が近い）</label>
+    <label><input type="checkbox" value="landslide"> 土砂災害対策（山が近い）</label>
   </div>
 
   <!-- あなたの家族構成 -->
@@ -151,12 +153,83 @@ document.getElementById("checkBtn").addEventListener("click", function() {
   checked.forEach(function(chk){
     var itemList = [];
 
-    // 地域別
-    if(chk.value === "sea") itemList = ["防水リュック","ライフジャケット","救命浮き具","防水ブーツ","防水スマホケース","浮き輪・ロープ","非常食","飲料水3日分","携帯ラジオ","防水ライト"];
-    if(chk.value === "mountain") itemList = ["ヘルメット","懐中電灯","登山靴・防滑ブーツ","ロープ","簡易担架","地図・コンパス","登山用防寒着"];
-    if(chk.value === "volcano") itemList = ["防塵マスク","耐火手袋","ゴーグル","耐熱服・長袖長ズボン","長靴・防水シューズ","ヘルメット"];
-    if(chk.value === "city") itemList = ["携帯トイレ","防犯ブザー","簡易マスク","小型救急キット","水筒","折りたたみスツール"];
-    if(chk.value === "river") itemList = ["ライフジャケット","防水リュック","非常食","飲料水3日分","携帯ラジオ","防水ライト","簡易ボート","浮き具","ロープ","防水ブーツ","防水スマホケース"];
+    // 災害別
+    if(chk.value === "earthquake") itemList = [
+      "耐震マット",
+      "家具転倒防止突っ張り棒",
+      "ガラス飛散防止フィルム",
+      "ヘルメット",
+      "安全靴（踏み抜き防止）",
+      "消火器",
+      "感震ブレーカー",
+      "家具固定ベルト",
+      "防災ずきん"
+    ];
+    
+    if(chk.value === "heavyRain") itemList = [
+      "止水板",
+      "吸水土のう",
+      "防水テープ",
+      "排水ポンプ",
+      "逆流防止弁",
+      "防水コンセントカバー",
+      "雨量計",
+      "側溝掃除用スコップ"
+    ];
+    
+    if(chk.value === "snow") itemList = [
+      "スノーブラシ",
+      "タイヤチェーン",
+      "凍結防止スプレー",
+      "雪かきスコップ",
+      "スノーダンプ",
+      "屋根雪落とし棒",
+      "滑り止めスパイク",
+      "解氷剤"
+    ];
+    
+    if(chk.value === "typhoon") itemList = [
+      "窓用シャッター補強材",
+      "養生テープ（窓補強用）",
+      "ブルーシート",
+      "固定用ロープ",
+      "飛散防止ネット",
+      "雨戸補強金具",
+      "物干し固定バンド"
+    ];
+    
+    if(chk.value === "tsunami") itemList = [
+      "高浮力ライフジャケット",
+      "防水大型リュック",
+      "防水ポーチ",
+      "防水無線機",
+      "携帯用GPS",
+      "折りたたみヘルメット",
+      "高音量ホイッスル",
+      "LEDフラッシュビーコン"
+    ];
+    
+    if(chk.value === "volcano") itemList = [
+      "防塵ゴーグル",
+      "N95マスク",
+      "火山灰用ほうき",
+      "耐熱手袋",
+      "防炎シート",
+      "灰除去ブラシ",
+      "車用防塵カバー",
+      "耐熱レインウェア"
+    ];
+    
+    if(chk.value === "landslide") itemList = [
+      "登山用ヘルメット",
+      "厚手作業手袋",
+      "強化型防塵マスク",
+      "折りたたみスコップ",
+      "救助用ロープ",
+      "カラビナ",
+      "救助用ハンマー",
+      "防災ナイフ"
+    ];
 
     // 家族構成別
     if(chk.value === "male") itemList = ["軽量非常食","1人用寝袋","コンパクトラジオ"];
@@ -190,5 +263,6 @@ document.getElementById("checkBtn").addEventListener("click", function() {
 
 </body>
 </html>
+
 
 

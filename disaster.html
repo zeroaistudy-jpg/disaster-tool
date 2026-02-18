@@ -23,9 +23,15 @@ button { margin-top: 10px; padding: 5px 10px; }
   padding: 5px;
   border: 1px solid #ccc; /* 枠あり */
   border-radius: 5px;
-  background-color: #f9f9f9; /* 背景色あり */
-  text-align: left;
+  background-color: #f9f9f9; /* 背景あり */
+  display: flex;
+  justify-content: space-between; /* 左：グッズ名 / 右：Amazonアイコン */
+  align-items: center;
   font-size: 0.9em;
+}
+#result .items div img {
+  width: 16px;
+  height: 16px;
 }
 </style>
 </head>
@@ -44,7 +50,9 @@ button { margin-top: 10px; padding: 5px 10px; }
 <div id="result"></div>
 
 <script>
-// 診断処理（選択肢ごとにグッズ表示）
+// あなたのAmazonアフィリエイトID
+const amazonAffiliateId = "あなたのアフィID"; // ←ここにアフィIDを入れてください
+
 document.getElementById("checkBtn").addEventListener("click", function() {
   var checked = document.querySelectorAll("input[type=checkbox]:checked");
   var result = document.getElementById("result");
@@ -70,11 +78,15 @@ document.getElementById("checkBtn").addEventListener("click", function() {
     if(chk.value === "none") itemList = ["飲料水（3日分）","保存食"];
 
     if(itemList.length > 0){
-      // 選択肢名表示
       itemsHtml += "<strong>"+ chk.parentNode.textContent +"</strong>";
-      // グッズ2列表示
       itemsHtml += "<div class='items'>";
-      itemList.forEach(function(it){ itemsHtml += "<div>"+it+"</div>"; });
+      itemList.forEach(function(it){
+        var url = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(it) + "&tag=" + amazonAffiliateId;
+        itemsHtml += "<div>" + it + 
+                     '<a href="' + url + '" target="_blank">' +
+                     '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">' +
+                     "</a></div>";
+      });
       itemsHtml += "</div>";
     }
   });
